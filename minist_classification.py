@@ -34,14 +34,14 @@ plt.show()
 
 # Hyperparameter
 num_hidden_layer = 2  # number of hidden layers
-num_neurons_in_hidden_layer = [128,  10]
-num_epochs = 10
+num_neurons_in_hidden_layer = [10,  10]
+num_epochs = 5
 # Select actications; https://www.tensorflow.org/api_docs/python/tf/keras/activations
 activation_functions = ['relu', None]  # ['relu', 'tanh'] ['relu', 'sigmoid'']
 # Select optimizers; https://www.tensorflow.org/api_docs/python/tf/keras/optimizers
-learning_rate_alaph = 0.001
-opt = Adam(learning_rate=learning_rate_alaph)
-# ex) opt = SGD(learning_rate=learning_rate_alaph)
+learning_rate_alaph = 0.1
+opt = SGD(learning_rate=learning_rate_alaph)
+# ex) opt = Adam(learning_rate=learning_rate_alaph)
 
 
 ##########################################################
