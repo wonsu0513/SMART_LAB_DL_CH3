@@ -33,9 +33,9 @@ plt.show()
 '''
 
 # Hyperparameter
-num_hidden_layer = 2  # number of hidden layers
-num_neurons_in_hidden_layer = [10,  10]
-num_epochs = 5
+num_hidden_layer = 1  # ex) 2  # number of hidden layers
+num_neurons_in_hidden_layer = [10]  # ex) [10,  10]
+num_epochs = 3
 # Select actications; https://www.tensorflow.org/api_docs/python/tf/keras/activations
 activation_functions = ['relu', None]  # ['relu', 'tanh'] ['relu', 'sigmoid'']
 # Select optimizers; https://www.tensorflow.org/api_docs/python/tf/keras/optimizers
