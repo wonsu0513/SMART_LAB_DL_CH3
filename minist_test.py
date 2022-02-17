@@ -63,11 +63,11 @@ def model_builder(hp):
     model = Sequential()
 
     # Tune the number of units in the first Dense layer
-    # Choose an optimal value between 32-512
-    hp_units_1 = hp.Int('units', min_value=32, max_value=512, step=32)
+    # Choose an optimal value between 32-512, for speed-up, I modified into 128
+    hp_units_1 = hp.Int('units', min_value=32, max_value=128, step=32)
     #hp_units_2 = hp.Int('units', min_value=32, max_value=512, step=32)
 
-    model.add(Flatten(input_shape=(28, 28))) ## input layer
+    model.add(Flatten(input_shape=(28, 28)))  # input layer
     model.add(Dense(units=hp_units_1, activation='relu'))
     #model.add(Dense(units=hp_units_2, activation='relu'))
 
@@ -83,9 +83,10 @@ def model_builder(hp):
                   metrics=['accuracy'])
     return model
 
+
 tuner = kt.Hyperband(model_builder,
                      objective='val_accuracy',
-                     max_epochs=20,
+                     max_epochs=10,
                      factor=3,
                      directory='keras_tuner_dir',
                      project_name='wonse_zzang')
@@ -94,7 +95,7 @@ tuner.search(train_images, train_labels, epochs=10, validation_data=(
     test_images, test_labels))
 best_hps = tuner.get_best_hyperparameters(num_trials=1)[0]
 
-#### Display results
+# Display results
 print(f"""
 The hyperparameter search is complete. The optimal number of units in the first densely-connected
 layer is {best_hps.get('units')} and the optimal learning rate for the optimizer
@@ -105,8 +106,6 @@ is {best_hps.get('learning_rate')}.
 model = tuner.hypermodel.build(best_hps)
 model.fit(train_images, train_labels, epochs=10,
           validation_data=(test_images, test_labels))
-
-
 
 
 #############################################################
@@ -123,6 +122,7 @@ predictions = probability_model.predict(test_images)
 
 # print(predictions[0])
 np.argmax(predictions[0])
+
 
 def plot_image(i, predictions_array, true_label, img):
     true_label, img = true_label[i], img[i]
@@ -142,6 +142,8 @@ def plot_image(i, predictions_array, true_label, img):
                                          100*np.max(predictions_array),
                                          class_names[true_label]),
                color=color)
+
+
 def plot_value_array(i, predictions_array, true_label):
     true_label = true_label[i]
     plt.grid(False)
@@ -154,6 +156,7 @@ def plot_value_array(i, predictions_array, true_label):
     thisplot[predicted_label].set_color('red')
     thisplot[true_label].set_color('blue')
 
+
 i = 0
 plt.figure(figsize=(15, 10))
 plt.subplot(1, 2, 1)
@@ -163,4 +166,3 @@ plot_value_array(i, predictions[i],  test_labels)
 _ = plt.xticks(range(10), class_names, rotation=45)
 
 plt.show()
-
