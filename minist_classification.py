@@ -37,12 +37,11 @@ num_hidden_layer = 2  # number of hidden layers
 num_neurons_in_hidden_layer = [128,  10]
 num_epochs = 10
 # Select actications; https://www.tensorflow.org/api_docs/python/tf/keras/activations
-activation_functions = ['relu', None] # ['relu', 'tanh'] ['relu', 'sigmoid'']
+activation_functions = ['relu', None]  # ['relu', 'tanh'] ['relu', 'sigmoid'']
 # Select optimizers; https://www.tensorflow.org/api_docs/python/tf/keras/optimizers
 learning_rate_alaph = 0.001
 opt = Adam(learning_rate=learning_rate_alaph)
 # ex) opt = SGD(learning_rate=learning_rate_alaph)
-
 
 
 ##########################################################
@@ -82,6 +81,7 @@ def NN(train_images, train_labels, test_images,  test_labels):
 
 model = NN(train_images, train_labels, test_images, test_labels)
 
+#############################################################
 
 # Evaluation of model
 test_loss, test_acc = model.evaluate(test_images,  test_labels, verbose=2)
