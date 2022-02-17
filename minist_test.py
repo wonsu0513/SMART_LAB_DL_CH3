@@ -3,6 +3,7 @@ import tensorflow as tf
 from tensorflow.keras.layers import Dense, Flatten, Softmax
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import Adam, SGD  # add more optimizer if you need
+import kerastuner as kt
 
 
 # Helper libraries
@@ -54,10 +55,12 @@ train_images = train_images / 255.0
 test_images = test_images / 255.0
 
 
-def NN(train_images, train_labels, test_images,  test_labels):
+def NN(hp)):
     model = Sequential()
     model.add(Flatten(input_shape=(28, 28)))
     # hidden layer
+    hp_units = hp.Int('units', min_value = 32, max_value = 512, step = 32)
+
     for i in range(num_hidden_layer):
         model.add(Dense(num_neurons_in_hidden_layer[i],
                         activation=activation_functions[i]))
@@ -139,3 +142,6 @@ plot_value_array(i, predictions[i],  test_labels)
 _ = plt.xticks(range(10), class_names, rotation=45)
 
 plt.show()
+
+
+
