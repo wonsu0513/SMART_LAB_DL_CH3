@@ -36,6 +36,7 @@ plt.grid(False)
 plt.show()
 '''
 
+'''
 # Hyperparameter
 num_hidden_layer = 2  # number of hidden layers
 num_neurons_in_hidden_layer = [128,  10]
@@ -46,6 +47,7 @@ activation_functions = ['relu', None]  # ['relu', 'tanh'] ['relu', 'sigmoid'']
 learning_rate_alaph = 0.001
 opt = Adam(learning_rate=learning_rate_alaph)
 # ex) opt = SGD(learning_rate=learning_rate_alaph)
+'''
 
 
 ##########################################################
@@ -63,11 +65,11 @@ def model_builder(hp):
     # Tune the number of units in the first Dense layer
     # Choose an optimal value between 32-512
     hp_units_1 = hp.Int('units', min_value=32, max_value=512, step=32)
-    hp_units_2 = hp.Int('units', min_value=32, max_value=512, step=32)
+    #hp_units_2 = hp.Int('units', min_value=32, max_value=512, step=32)
 
     model.add(Flatten(input_shape=(28, 28))) ## input layer
     model.add(Dense(units=hp_units_1, activation='relu'))
-    model.add(Dense(units=hp_units_2, activation='relu'))
+    #model.add(Dense(units=hp_units_2, activation='relu'))
 
     model.add(Dense(10))  # output labels
     model.summary()
