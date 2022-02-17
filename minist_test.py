@@ -3,7 +3,7 @@ import tensorflow as tf
 from tensorflow.keras.layers import Dense, Flatten, Softmax
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import Adam, SGD  # add more optimizer if you need
-import kerastuner as kt
+from keras.losses import SparseCategoricalCrossentropy
 
 
 # Helper libraries
@@ -36,31 +36,61 @@ plt.show()
 # Hyperparameter
 num_hidden_layer = 2  # number of hidden layers
 num_neurons_in_hidden_layer = [128,  10]
-num_epochs = 10
+num_epochs = 5
 # Select actications; https://www.tensorflow.org/api_docs/python/tf/keras/activations
-activation_functions = ['relu', None] # ['relu', 'tanh'] ['relu', 'sigmoid'']
+activation_functions = ['relu', None]  # ['relu', 'tanh'] ['relu', 'sigmoid'']
 # Select optimizers; https://www.tensorflow.org/api_docs/python/tf/keras/optimizers
 learning_rate_alaph = 0.001
 opt = Adam(learning_rate=learning_rate_alaph)
 # ex) opt = SGD(learning_rate=learning_rate_alaph)
 
 
-
-##########################################################
-############# Policy Line ### Don't change below codes ###
-##########################################################
+# ~@-(^-^)-@~~@-(^-^)-@~~@-(^-^)-@~~@-(^-^)-@~~@-(^-^)-@~ #
+############# Policy Line ### Don't change below codes ####
+# ~@-(^-^)-@~~@-(^-^)-@~~@-(^-^)-@~~@-(^-^)-@~~@-(^-^)-@~ #
 
 # Normalization (0 to 1)
 train_images = train_images / 255.0
 test_images = test_images / 255.0
 
 
-def NN(hp)):
+def model_builder(hp):
+  model = Sequential()
+  model.add(Flatten(input_shape=(28, 28)))
+
+  # Tune the number of units in the first Dense layer
+  # Choose an optimal value between 32-512
+  hp_units = hp.Int('units', min_value = 32, max_value = 512, step = 32)
+  model.add(Dense(units = hp_units, activation = 'relu'))
+  model.add(Dense(10))
+
+  # Tune the learning rate for the optimizer 
+  # Choose an optimal value from 0.01, 0.001, or 0.0001
+  hp_learning_rate = hp.Choice('learning_rate', values = [1e-2, 1e-3, 1e-4]) 
+
+  model.compile(optimizer = Adam(learning_rate = hp_learning_rate),
+                loss = SparseCategoricalCrossentropy(from_logits = True), 
+                metrics = ['accuracy'])
+
+  return model
+
+tuner.search(train_images, train_labels, epochs = 10, validation_data = (img_test, label_test), callbacks = [ClearTrainingOutput()])
+
+
+
+uner = kt.Hyperband(model_builder,
+                     objective = 'val_accuracy', 
+                     max_epochs = 100,
+                     factor = 3,
+                     directory = 'my_dir',
+                     project_name = 'intro_to_kt')
+
+
+
+def NN(train_images, train_labels, test_images,  test_labels):
     model = Sequential()
     model.add(Flatten(input_shape=(28, 28)))
     # hidden layer
-    hp_units = hp.Int('units', min_value = 32, max_value = 512, step = 32)
-
     for i in range(num_hidden_layer):
         model.add(Dense(num_neurons_in_hidden_layer[i],
                         activation=activation_functions[i]))
@@ -142,6 +172,3 @@ plot_value_array(i, predictions[i],  test_labels)
 _ = plt.xticks(range(10), class_names, rotation=45)
 
 plt.show()
-
-
-
