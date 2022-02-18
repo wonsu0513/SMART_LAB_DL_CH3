@@ -46,14 +46,14 @@ learning_rate_alaph = 0.1
 opt = SGD(learning_rate=learning_rate_alaph)
 # ex) opt = Adam(learning_rate=learning_rate_alaph)
 
-ls_enable = True #False #True # False #True for L2 regularization
-lambda_value= 0.01
+ls_enable = True  # False #True # False #True for L2 regularization
+lambda_value = 0.01
 
-dropout_enable = True #False #True # False #True for dropout
-prob_value = 0.20 #Between 0% and 30% 
+dropout_enable = True  # False #True # False #True for dropout
+prob_value = 0.20  # Between 0% and 30%
 
 initializer = initializers.RandomNormal(mean=0., stddev=1.)
-initializer_enable = True
+initializer_enable = False
 
 ##########################################################
 ############# Policy Line ### Don't change below codes ###
@@ -72,22 +72,21 @@ def NN(train_images, train_labels, test_images,  test_labels):
         if ls_enable:
             if initializer_enable:
                 model.add(Dense(num_neurons_in_hidden_layer[i],
-                        activation=activation_functions[i], kernel_regularizer=l2(lambda_value), kernel_initializer=initializer))
+                                activation=activation_functions[i], kernel_regularizer=l2(lambda_value), kernel_initializer=initializer))
             else:
                 model.add(Dense(num_neurons_in_hidden_layer[i],
-                        activation=activation_functions[i], kernel_regularizer=l2(lambda_value)))
+                                activation=activation_functions[i], kernel_regularizer=l2(lambda_value)))
         else:
             if initializer_enable:
                 model.add(Dense(num_neurons_in_hidden_layer[i],
-                        activation=activation_functions[i]), kernel_initializer=initializer)
+                                activation=activation_functions[i]), kernel_initializer=initializer)
             else:
                 model.add(Dense(num_neurons_in_hidden_layer[i],
-                        activation=activation_functions[i]))
-                        
+                                activation=activation_functions[i]))
+
     if dropout_enable:
-        model.add(Dropout(prob_value)) 
-    
-    
+        model.add(Dropout(prob_value))
+
     # hidden layer
     model.summary()
 
@@ -117,7 +116,8 @@ print('Test accuracy:', test_acc)
 print('############################')
 
 # Predictions
-probability_model = Sequential([model, Softmax()]) # due to multiclass classifiation
+# due to multiclass classifiation
+probability_model = Sequential([model, Softmax()])
 predictions = probability_model.predict(test_images)
 
 # print(predictions[0])
