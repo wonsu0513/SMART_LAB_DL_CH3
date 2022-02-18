@@ -3,7 +3,8 @@ import tensorflow as tf
 from tensorflow.keras.layers import Dense, Flatten, Softmax
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import Adam, SGD  # add more optimizer if you need
-
+from tensorflow.keras.regularizers import l2
+from tensorflow.keras.layers import Dropout
 
 # Helper libraries
 import numpy as np
@@ -43,6 +44,12 @@ learning_rate_alaph = 0.1
 opt = SGD(learning_rate=learning_rate_alaph)
 # ex) opt = Adam(learning_rate=learning_rate_alaph)
 
+ls_enable = True #False #True
+lambda_value= 0.01
+
+dropout_enable = True #False #True
+prob_value = 0.20
+
 
 ##########################################################
 ############# Policy Line ### Don't change below codes ###
@@ -58,9 +65,17 @@ def NN(train_images, train_labels, test_images,  test_labels):
     model.add(Flatten(input_shape=(28, 28)))
     # hidden layer
     for i in range(num_hidden_layer):
-        model.add(Dense(num_neurons_in_hidden_layer[i],
+        if ls_enable:
+            model.add(Dense(num_neurons_in_hidden_layer[i],
+                        activation=activation_functions[i], kernel_regularizer=l2(lambda_value)))
+        else:
+            model.add(Dense(num_neurons_in_hidden_layer[i],
                         activation=activation_functions[i]))
-
+        
+    if dropout_enable:
+        model.add(Dropout(prob_value)) 
+    
+    
     # hidden layer
     model.summary()
 
