@@ -45,18 +45,19 @@ activation_functions = ['tanh']  # ['relu', 'relu'] ['tanh', 'sigmoid'']
 learning_rate_alaph = 0.1  # often in the range between 0.0 and 1.0
 # values between 0.5 and 0.98, depending on how smooth you want the convergence to the local optima (low values for noisy gradients, high values for smooth gradients).
 
-momentum_rate = 1
-opt = SGD(learning_rate=learning_rate_alaph, momentum=momentum_rate)
+
+opt = SGD(learning_rate=learning_rate_alaph)
 # ex) opt = Adam(learning_rate=learning_rate_alaph)
 
-ls_enable = True  # False #True # False #True for L2 regularization
-lambda_value = 0.01  # Between 0 and 0.1, such as 0.1, 0.001, 0.0001
+ls_enable = False #False #True # False # True for L2 regularization
+lambda_value= 0.01 #Between 0 and 0.1, such as 0.1, 0.001, 0.0001 
+# If lambda=high, model will be simple (underfitting), low, model complex (risk to overfitting) 
 
-dropout_enable = True  # False #True # False #True for dropout
-prob_value = 0.20  # Between 0% and 30%
+dropout_enable = False #False #True # False #True for dropout
+prob_value = 0.20 #Between 0% and 30%
 
-initializer = initializers.RandomNormal(mean=0., stddev=1.)
 initializer_enable = False
+initializer = initializers.RandomNormal(mean=0., stddev=1.)
 
 ##########################################################
 ############# Policy Line ### Don't change below codes ###
@@ -100,7 +101,7 @@ def NN(train_images, train_labels, test_images,  test_labels):
 
     h = model.fit(train_images, train_labels, epochs=num_epochs)
 
-    plt.plot(h.history['loss'])
+    plt.plot(h.history['accuracy'])
     plt.ylabel('Accuracy evolution')
     plt.xlabel('Epochs')
     plt.show()
@@ -146,7 +147,6 @@ def plot_image(i, predictions_array, true_label, img):
                                          class_names[true_label]),
                color=color)
 
-
 def plot_value_array(i, predictions_array, true_label):
     true_label = true_label[i]
     plt.grid(False)
@@ -158,7 +158,6 @@ def plot_value_array(i, predictions_array, true_label):
 
     thisplot[predicted_label].set_color('red')
     thisplot[true_label].set_color('blue')
-
 
 i = 0
 plt.figure(figsize=(15, 10))
