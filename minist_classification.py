@@ -49,14 +49,14 @@ learning_rate_alaph = 0.98  # often in the range between 0.0 and 1.0
 opt = SGD(learning_rate=learning_rate_alaph)
 # ex) opt = Adam(learning_rate=learning_rate_alaph)
 
-ls_enable = False  # False #True # False # True for L2 regularization
+ls_enable = True  # False  for L2 regularization
 lambda_value = 0.1  # Between 0 and 0.1, such as 0.1, 0.001, 0.0001
 # If lambda=high, model will be simple (underfitting), low, model complex (risk to overfitting)
 
-dropout_enable = False  # False #True # False #True for dropout
+dropout_enable = True  # False for dropout
 prob_value = 0.20  # Between 0% and 30%
 
-initializer_enable = False
+initializer_enable = True
 initializer = initializers.RandomNormal(mean=0., stddev=1.)
 
 ##########################################################
@@ -101,8 +101,8 @@ def NN(train_images, train_labels, test_images,  test_labels):
 
     h = model.fit(train_images, train_labels, epochs=num_epochs)
 
-    plt.plot(h.history['accuracy'])
-    plt.ylabel('Accuracy evolution')
+    plt.plot(h.history['loss'])
+    plt.ylabel('Loss evolution')
     plt.xlabel('Epochs')
     plt.show()
 
