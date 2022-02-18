@@ -44,8 +44,8 @@ activation_functions = ['tanh']  # ['relu', 'relu'] ['tanh', 'sigmoid'']
 # Select optimizers; https://www.tensorflow.org/api_docs/python/tf/keras/optimizers
 learning_rate_alaph = 0.1  # often in the range between 0.0 and 1.0
 # values between 0.5 and 0.98, depending on how smooth you want the convergence to the local optima (low values for noisy gradients, high values for smooth gradients).
-momentum_rate = 0.5
 
+momentum_rate = 1
 opt = SGD(learning_rate=learning_rate_alaph, momentum=momentum_rate)
 # ex) opt = Adam(learning_rate=learning_rate_alaph)
 
