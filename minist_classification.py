@@ -44,11 +44,11 @@ learning_rate_alaph = 0.1
 opt = SGD(learning_rate=learning_rate_alaph)
 # ex) opt = Adam(learning_rate=learning_rate_alaph)
 
-ls_enable = True #False #True
+ls_enable = True #False #True # False #True for L2 regularization
 lambda_value= 0.01
 
-dropout_enable = True #False #True
-prob_value = 0.20
+dropout_enable = True #False #True # False #True for dropout
+prob_value = 0.20 #Between 0% and 30% 
 
 
 ##########################################################
