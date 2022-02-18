@@ -41,23 +41,27 @@ num_neurons_in_hidden_layer = [10]  # ex) [10,  10]
 num_epochs = 3
 # Select actications; https://www.tensorflow.org/api_docs/python/tf/keras/activations
 activation_functions = ['tanh']  # ['relu', 'relu'] ['tanh', 'sigmoid'']
+
 # Select optimizers; https://www.tensorflow.org/api_docs/python/tf/keras/optimizers
-learning_rate_alaph = 0.98  # often in the range between 0.0 and 1.0
 # values between 0.5 and 0.98, depending on how smooth you want the convergence to the local optima (low values for noisy gradients, high values for smooth gradients).
+learning_rate_alaph = 0.98  # often in the range between 0.0 and 1.0
 
+#Find minimum value of the loss by evaluating small portion of the entire data (mini-batch) (less comuputing power)
+opt = SGD(learning_rate=learning_rate_alaph) # ex) opt = Adam(learning_rate=learning_rate_alaph)
 
-opt = SGD(learning_rate=learning_rate_alaph)
-# ex) opt = Adam(learning_rate=learning_rate_alaph)
-
-ls_enable = True  # False  for L2 regularization
-lambda_value = 0.1  # Between 0 and 0.1, such as 0.1, 0.001, 0.0001
+# For L2 regularization
+ls_enable = True  # False  
 # If lambda=high, model will be simple (underfitting), low, model complex (risk to overfitting)
+lambda_value = 0.1  # Between 0 and 0.1, such as 0.1, 0.001, 0.0001
 
-dropout_enable = True  # False for dropout
+# For dropout
+dropout_enable = True  # False 
 prob_value = 0.20  # Between 0% and 30%
 
+# For weight initializer 
 initializer_enable = True
 initializer = initializers.RandomNormal(mean=0., stddev=1.)
+
 
 ##########################################################
 ############# Policy Line ### Don't change below codes ###
