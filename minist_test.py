@@ -117,7 +117,7 @@ print('Test accuracy:', test_acc)
 print('############################')
 
 # Predictions
-probability_model = Sequential([model, Softmax()])
+probability_model = Sequential([model, Softmax()]) # due to multiclass classifiation
 predictions = probability_model.predict(test_images)
 
 # print(predictions[0])

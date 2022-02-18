@@ -6,6 +6,8 @@ from tensorflow.keras.optimizers import Adam, SGD  # add more optimizer if you n
 from tensorflow.keras.regularizers import l2
 from tensorflow.keras.layers import Dropout
 
+from tensorflow.keras import initializers
+
 # Helper libraries
 import numpy as np
 import matplotlib.pyplot as plt
@@ -38,7 +40,7 @@ num_hidden_layer = 1  # ex) 2  # number of hidden layers
 num_neurons_in_hidden_layer = [10]  # ex) [10,  10]
 num_epochs = 3
 # Select actications; https://www.tensorflow.org/api_docs/python/tf/keras/activations
-activation_functions = ['relu', None]  # ['relu', 'tanh'] ['relu', 'sigmoid'']
+activation_functions = ['tanh']  # ['relu', 'relu'] ['tanh', 'sigmoid'']
 # Select optimizers; https://www.tensorflow.org/api_docs/python/tf/keras/optimizers
 learning_rate_alaph = 0.1
 opt = SGD(learning_rate=learning_rate_alaph)
@@ -50,6 +52,8 @@ lambda_value= 0.01
 dropout_enable = True #False #True # False #True for dropout
 prob_value = 0.20 #Between 0% and 30% 
 
+initializer = initializers.RandomNormal(mean=0., stddev=1.)
+initializer_enable = True
 
 ##########################################################
 ############# Policy Line ### Don't change below codes ###
@@ -66,12 +70,20 @@ def NN(train_images, train_labels, test_images,  test_labels):
     # hidden layer
     for i in range(num_hidden_layer):
         if ls_enable:
-            model.add(Dense(num_neurons_in_hidden_layer[i],
+            if initializer_enable:
+                model.add(Dense(num_neurons_in_hidden_layer[i],
+                        activation=activation_functions[i], kernel_regularizer=l2(lambda_value), kernel_initializer=initializer))
+            else:
+                model.add(Dense(num_neurons_in_hidden_layer[i],
                         activation=activation_functions[i], kernel_regularizer=l2(lambda_value)))
         else:
-            model.add(Dense(num_neurons_in_hidden_layer[i],
+            if initializer_enable:
+                model.add(Dense(num_neurons_in_hidden_layer[i],
+                        activation=activation_functions[i]), kernel_initializer=initializer)
+            else:
+                model.add(Dense(num_neurons_in_hidden_layer[i],
                         activation=activation_functions[i]))
-        
+                        
     if dropout_enable:
         model.add(Dropout(prob_value)) 
     
@@ -105,7 +117,7 @@ print('Test accuracy:', test_acc)
 print('############################')
 
 # Predictions
-probability_model = Sequential([model, Softmax()])
+probability_model = Sequential([model, Softmax()]) # due to multiclass classifiation
 predictions = probability_model.predict(test_images)
 
 # print(predictions[0])
