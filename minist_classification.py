@@ -75,6 +75,7 @@ test_images = test_images / 255.0
 def NN(train_images, train_labels, test_images,  test_labels):
     model = Sequential()
     model.add(Flatten(input_shape=(28, 28)))
+    
     # hidden layer
     for i in range(num_hidden_layer):
         if ls_enable:
