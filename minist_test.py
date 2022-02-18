@@ -64,7 +64,7 @@ def model_builder(hp):
 
     # Tune the number of units in the first Dense layer
     # Choose an optimal value between 32-512, for speed-up, I modified into 128
-    hp_units_1 = hp.Int('units', min_value=32, max_value=128, step=32)
+    hp_units_1 = hp.Int('units', min_value=10, max_value=128, step=32)
     #hp_units_2 = hp.Int('units', min_value=32, max_value=512, step=32)
 
     model.add(Flatten(input_shape=(28, 28)))  # input layer
