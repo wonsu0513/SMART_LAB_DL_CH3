@@ -42,12 +42,15 @@ num_epochs = 3
 # Select actications; https://www.tensorflow.org/api_docs/python/tf/keras/activations
 activation_functions = ['tanh']  # ['relu', 'relu'] ['tanh', 'sigmoid'']
 # Select optimizers; https://www.tensorflow.org/api_docs/python/tf/keras/optimizers
-learning_rate_alaph = 0.1
-opt = SGD(learning_rate=learning_rate_alaph)
+learning_rate_alaph = 0.1  # often in the range between 0.0 and 1.0
+# values between 0.5 and 0.98, depending on how smooth you want the convergence to the local optima (low values for noisy gradients, high values for smooth gradients).
+momentum_rate = 0.5
+
+opt = SGD(learning_rate=learning_rate_alaph, momentum=momentum_rate)
 # ex) opt = Adam(learning_rate=learning_rate_alaph)
 
 ls_enable = True  # False #True # False #True for L2 regularization
-lambda_value = 0.01
+lambda_value = 0.01  # Between 0 and 0.1, such as 0.1, 0.001, 0.0001
 
 dropout_enable = True  # False #True # False #True for dropout
 prob_value = 0.20  # Between 0% and 30%
