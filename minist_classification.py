@@ -42,19 +42,19 @@ num_epochs = 3
 # Select actications; https://www.tensorflow.org/api_docs/python/tf/keras/activations
 activation_functions = ['tanh']  # ['relu', 'relu'] ['tanh', 'sigmoid'']
 # Select optimizers; https://www.tensorflow.org/api_docs/python/tf/keras/optimizers
-learning_rate_alaph = 0.1  # often in the range between 0.0 and 1.0
+learning_rate_alaph = 0.98  # often in the range between 0.0 and 1.0
 # values between 0.5 and 0.98, depending on how smooth you want the convergence to the local optima (low values for noisy gradients, high values for smooth gradients).
 
 
 opt = SGD(learning_rate=learning_rate_alaph)
 # ex) opt = Adam(learning_rate=learning_rate_alaph)
 
-ls_enable = False #False #True # False # True for L2 regularization
-lambda_value= 0.01 #Between 0 and 0.1, such as 0.1, 0.001, 0.0001 
-# If lambda=high, model will be simple (underfitting), low, model complex (risk to overfitting) 
+ls_enable = False  # False #True # False # True for L2 regularization
+lambda_value = 0.1  # Between 0 and 0.1, such as 0.1, 0.001, 0.0001
+# If lambda=high, model will be simple (underfitting), low, model complex (risk to overfitting)
 
-dropout_enable = False #False #True # False #True for dropout
-prob_value = 0.20 #Between 0% and 30%
+dropout_enable = False  # False #True # False #True for dropout
+prob_value = 0.20  # Between 0% and 30%
 
 initializer_enable = False
 initializer = initializers.RandomNormal(mean=0., stddev=1.)
@@ -147,6 +147,7 @@ def plot_image(i, predictions_array, true_label, img):
                                          class_names[true_label]),
                color=color)
 
+
 def plot_value_array(i, predictions_array, true_label):
     true_label = true_label[i]
     plt.grid(False)
@@ -158,6 +159,7 @@ def plot_value_array(i, predictions_array, true_label):
 
     thisplot[predicted_label].set_color('red')
     thisplot[true_label].set_color('blue')
+
 
 i = 0
 plt.figure(figsize=(15, 10))
